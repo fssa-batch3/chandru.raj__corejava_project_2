@@ -1,52 +1,42 @@
 package TestRegisterFeature;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TestLogin {
-	
+import org.junit.jupiter.api.Test;
 
-	    // Assume you have a login functionality with the following method
-	    public boolean login(String username, String password) {
-	        // Your login logic here
-	        // Return true if login is successful, otherwise return false
-	        // In a real application, this method would interact with the login page and perform authentication.
-	        return true; // Placeholder for the example
-	    }
+import com.google.protobuf.ServiceException;
 
-	    // Test case for successful login
-	    public void testSuccessfulLogin() {
-	        String username = "chandru";
-	        String password = "chan@2354";
-
-	        boolean result = login(username, password);
-
-	        // Assert that the login is successful
-	        if (result) {
-	            System.out.println("Test case testSuccessfulLogin passed.");
-	        } else {
-	            System.out.println("Test case testSuccessfulLogin failed.");
-	        }
-	    }
+import Redefine.model.User;
+import Redefine.services.UserService;
 
 
-	    public void testUnsuccessfulLogin() {
-	        String username = "invaliduser";
-	        String password = "invalidpassword";
+ class TestLogin {
 
-	        boolean result = login(username, password);
+	@Test
 
-	      
-	        if (!result) {
-	            System.out.println("Test case testUnsuccessfulLogin passed.");
-	        } else {
-	            System.out.println("Test case testUnsuccessfulLogin failed.");
-	        }
-	    }
+	 void loginSuccess() {
+		UserService userService = new UserService();
 
-	    // Main method to run the test cases
-	    public static void main(String[] args) {
-	        TestLogin test = new TestLogin();
-	        test.testSuccessfulLogin();
-	        test.testUnsuccessfulLogin();
-	    }
+		User user1 = new User("soffan2906@gmail.com",  "Wow@2002");
+		try {
+			
+			assertTrue(userService.loginUser(user1));
+			throw new ServiceException("Login successfully. Welcome, " + user1.getEmail() + "!");
+		} catch (ServiceException e) {
+
+			System.out.println(e.getMessage());
+		}
+	} 
+ 
+	@Test
+
+	 void loginFailed() {
+		UserService userService = new UserService();
+		User user1 = new User("vicky2001@gmail.com",  "Vick@2002");
+		try {
+			assertFalse(userService.loginUser(user1));
+			throw new ServiceException("Login Failed.Kindly Register");
+		} catch (ServiceException e) {
+			System.out.println(e.getMessage());
+		}
 	}
-	
-
+}

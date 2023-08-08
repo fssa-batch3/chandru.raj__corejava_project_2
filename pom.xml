@@ -8,6 +8,9 @@
 	<properties>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<sonar.organization>fssa-batch3</sonar.organization>
+<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<sonar.projectKey>fssa-batch3_chandru_raj_corejava_project_2</sonar.projectKey>
 	</properties>
 
 	<build>
@@ -26,6 +29,13 @@
 	</build>
 
 	<dependencies>
+		
+<!-- <https://mvnrepository.com/artifact/io.github.cdimascio/java-dotenv> -->
+<dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>java-dotenv</artifactId>
+    <version>5.2.2</version>
+</dependency>
 	  <dependency>
 	  	<groupId>mysql</groupId>
 	  	<artifactId>mysql-connector-java</artifactId>
