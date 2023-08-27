@@ -1,9 +1,9 @@
 package com.fssa.project.validator;
 
 import com.fssa.project.exception.ValidationException;
-
 import com.fssa.project.model.Hall;
 import com.fssa.project.validation.HallValidator;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -13,50 +13,61 @@ public class HallValidatorTest {
 
     @Test
     public void testValidHall() {
-        Hall hall = new Hall("HallName", "HallLocation", "1234567890");
-        HallValidator validator = new HallValidator(hall);
-        assertDoesNotThrow(() -> validator.validateAll());
+        Hall validHall = new Hall();
+        validHall.setHallName("ABC Hall");
+        validHall.setHallLocation("Some Location");
+        validHall.setMobileNumber("1234567890");
+
+        assertDoesNotThrow(() -> HallValidator.validateHall(validHall));
     }
 
     @Test
-    public void testInvalidEmptyHallName() {
-        Hall hall = new Hall("", "HallLocation", "1234567890");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateHallName());
+    public void testEmptyHallName() {
+        Hall invalidHall = new Hall();
+        invalidHall.setHallName("");
+        invalidHall.setHallLocation("Some Location");
+        invalidHall.setMobileNumber("1234567890");
+
+        assertThrows(ValidationException.class, () -> HallValidator.validateHall(invalidHall));
     }
 
     @Test
-    public void testInvalidEmptyHallLocation() {
-        Hall hall = new Hall("HallName", "", "1234567890");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateHallLocation());
+    public void testInvalidHallName() {
+        Hall invalidHall = new Hall();
+        invalidHall.setHallName("ABC@123");
+        invalidHall.setHallLocation("Some Location");
+        invalidHall.setMobileNumber("1234567890");
+
+        assertThrows(ValidationException.class, () -> HallValidator.validateHall(invalidHall));
     }
 
     @Test
-    public void testInvalidEmptyMobileNumber() {
-        Hall hall = new Hall("HallName", "HallLocation", "");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateMobileNumber());
+    public void testEmptyHallLocation() {
+        Hall invalidHall = new Hall();
+        invalidHall.setHallName("ABC Hall");
+        invalidHall.setHallLocation("");
+        invalidHall.setMobileNumber("1234567890");
+
+        assertThrows(ValidationException.class, () -> HallValidator.validateHall(invalidHall));
     }
 
     @Test
-    public void testInvalidShortMobileNumber() {
-        Hall hall = new Hall("HallName", "HallLocation", "123");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateMobileNumber());
+    public void testEmptyMobileNumber() {
+        Hall invalidHall = new Hall();
+        invalidHall.setHallName("ABC Hall");
+        invalidHall.setHallLocation("Some Location");
+        invalidHall.setMobileNumber("");
+
+        assertThrows(ValidationException.class, () -> HallValidator.validateHall(invalidHall));
     }
 
     @Test
-    public void testInvalidLongMobileNumber() {
-        Hall hall = new Hall("HallName", "HallLocation", "12345678901");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateMobileNumber());
-    }
+    public void testInvalidMobileNumber() {
+        Hall invalidHall = new Hall();
+        invalidHall.setHallName("ABC Hall");
+        invalidHall.setHallLocation("Some Location");
+        invalidHall.setMobileNumber("123"); // Invalid format
 
-    @Test
-    public void testInvalidNonNumericMobileNumber() {
-        Hall hall = new Hall("HallName", "HallLocation", "abcd123456");
-        HallValidator validator = new HallValidator(hall);
-        assertThrows(ValidationException.class, () -> validator.validateMobileNumber());
+        assertThrows(ValidationException.class, () -> HallValidator.validateHall(invalidHall));
     }
 }

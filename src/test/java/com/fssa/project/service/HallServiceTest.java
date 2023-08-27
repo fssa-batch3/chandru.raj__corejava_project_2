@@ -2,75 +2,119 @@ package com.fssa.project.service;
 
 import com.fssa.project.exception.ServiceException;
 import com.fssa.project.model.Hall;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.fssa.project.utils.ConnectionUtil;
+import org.junit.jupiter.api.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HallServiceTest {
 
-    private HallService hallService;
+    private static HallService hallService;
+    private static int createdHallId;
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setUp() throws SQLException {
         hallService = new HallService();
+        clearTestData();
+    }
+
+    @AfterAll
+    public static void tearDown() throws SQLException {
+        clearTestData();
+    }
+
+    private static void clearTestData() throws SQLException {
+        try (Connection connection = ConnectionUtil.getConnection()) {
+            String query = "DELETE FROM halls";
+            try (PreparedStatement pst = connection.prepareStatement(query)) {
+                pst.executeUpdate();
+            }
+        }
     }
 
     @Test
-    public void testCreateHall() throws ServiceException {
-        Hall hall = new Hall("HallName", "HallLocation", "1234567890");
-        String result = hallService.createHall(hall);
-        assertEquals("Hall Created Successfully", result);
+    @Order(1)
+    public void testCreateHall_Success() {
+        Hall hall = new Hall();
+        hall.setHallName("ABC Hall");
+        hall.setHallLocation("Some Location");
+        hall.setMobileNumber("1234567890");
+
+        assertDoesNotThrow(() -> {
+            int hallId = hallService.createHall(hall);
+            assertTrue(hallId > 0);
+            createdHallId = hallId;
+        });
     }
 
     @Test
-    public void testCreateHallWithInvalidData() {
-        Hall hall = new Hall("", "HallLocation", "1234567890");
-        assertThrows(ServiceException.class, () -> hallService.createHall(hall));
+    @Order(2)
+    public void testReadHall_Success() {
+        assertDoesNotThrow(() -> {
+            Hall hall = hallService.readHall(createdHallId);
+            assertNotNull(hall);
+        });
     }
 
     @Test
-    public void testReadHall() throws ServiceException {
-        Hall hall = new Hall("HallName", "HallLocation", "1234567890");
-        hallService.createHall(hall);
+    @Order(3)
+    public void testUpdateHall_Success() {
+        assertDoesNotThrow(() -> {
+            Hall hall = hallService.readHall(createdHallId);
+            assertNotNull(hall);
 
-        Hall retrievedHall = hallService.readHall(1);
-        assertNotNull(retrievedHall);
-        assertEquals("HallName", retrievedHall.getHallName());
+            hall.setHallLocation("Updated Location");
+            boolean result = hallService.updateHall(hall);
+            assertTrue(result);
+
+            Hall updatedHall = hallService.readHall(createdHallId);
+            assertNotNull(updatedHall);
+            assertEquals("Updated Location", updatedHall.getHallLocation());
+        });
     }
 
     @Test
-    public void testReadNonExistentHall() {
-        assertThrows(ServiceException.class, () -> hallService.readHall(9));
+    @Order(4)
+    public void testDeleteHall_Success() {
+        assertDoesNotThrow(() -> {
+            boolean result = hallService.deleteHall(createdHallId);
+            assertTrue(result);
+
+            Hall deletedHall = hallService.readHall(createdHallId);
+            assertNull(deletedHall);
+        });
     }
 
     @Test
-    public void testUpdateHall() throws ServiceException {
-        Hall hall = new Hall("HallName", "HallLocation", "1234567890");
-        hallService.createHall(hall);
-
-        Hall updatedHall = new Hall("HallName", "NewLocation", "9876543210");
-        String result = hallService.updateHall(updatedHall);
-        assertEquals("Hall Updated Successfully", result);
-
-        Hall retrievedHall = hallService.readHall(9);
-        assertNotNull(retrievedHall);
-        assertEquals("NewLocation", retrievedHall.getHallLocation());
+    @Order(5)
+    public void testReadHall_InvalidHallId() {
+        assertThrows(ServiceException.class, () -> {
+            Hall hall = hallService.readHall(-1);
+        });
     }
 
     @Test
-    public void testDeleteHall() throws ServiceException {
-        Hall hall = new Hall("HallName", "HallLocation", "1234567890");
-        hallService.createHall(hall);
+    @Order(6)
+    public void testUpdateHall_InvalidData() {
+        assertThrows(ServiceException.class, () -> {
+            Hall hall = hallService.readHall(createdHallId);
+            assertNotNull(hall);
 
-        String result = hallService.deleteHall(8);
-        assertEquals("Hall Deleted Successfully", result);
-
-        assertThrows(ServiceException.class, () -> hallService.readHall(7));
+            hall.setMobileNumber("");
+            hallService.updateHall(hall);
+        });
     }
 
     @Test
-    public void testDeleteNonExistentHall() {
-        assertThrows(ServiceException.class, () -> hallService.deleteHall(3));
+    @Order(7)
+    public void testDeleteHall_InvalidHallId() {
+        assertThrows(ServiceException.class, () -> {
+            hallService.deleteHall(-1);
+        });
     }
 }

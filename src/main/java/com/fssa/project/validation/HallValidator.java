@@ -4,46 +4,60 @@ import com.fssa.project.exception.ValidationException;
 import com.fssa.project.model.Hall;
 
 public class HallValidator {
-    private Hall hall;
 
-    public HallValidator(Hall hall) {
-        this.hall = hall;
+    private HallValidator() {
     }
 
-    public void validateAll() throws ValidationException {
-        validateHallName();
-        validateHallLocation();
-        validateMobileNumber();
-    }
+    public static void validateHall(Hall hall) throws ValidationException {
+        if (hall == null) {
+            throw new ValidationException("Hall object is null");
+        }
 
-    public void validateHallName() throws ValidationException {
         if (hall.getHallName() == null || hall.getHallName().isEmpty()) {
-            throw new ValidationException("Hall name is required.");
+            throw new ValidationException("Hall name is required");
+        } else if (!isValidHallName(hall.getHallName())) {
+            throw new ValidationException("Invalid hall name");
         }
-        // Additional validation rules for hall name if needed
-    }
 
-    public void validateHallLocation() throws ValidationException {
         if (hall.getHallLocation() == null || hall.getHallLocation().isEmpty()) {
-            throw new ValidationException("Hall location is required.");
+            throw new ValidationException("Hall location is required");
         }
-        // Additional validation rules for hall location if needed
-    }
 
-    public void validateMobileNumber() throws ValidationException {
         if (hall.getMobileNumber() == null || hall.getMobileNumber().isEmpty()) {
-            throw new ValidationException("Mobile number is required.");
+            throw new ValidationException("Mobile number is required");
+        } else if (!isValidMobileNumber(hall.getMobileNumber())) {
+            throw new ValidationException("Invalid mobile number");
         }
-        // Additional validation rules for mobile number if needed
-        String mobileNumber = hall.getMobileNumber();
-        String regex = "^[0-9]{10}$"; // Regex for 10-digit mobile number
-        if (!mobileNumber.matches(regex)) {
-            throw new ValidationException("Invalid mobile number format.");
-        }
+
+        // You can add more validation rules as needed
     }
 
-	public Object validateAll1() {
+    private static boolean isValidHallName(String hallName) {
+        // Define your regex pattern for a valid hall name
+        String regex = "^[a-zA-Z0-9\\s]+$"; // Alphanumeric with spaces
+        
+        return hallName.matches(regex);
+    }
+
+    private static boolean isValidMobileNumber(String mobileNumber) {
+        // Define your regex pattern for a valid mobile number
+        String regex = "^[0-9]{10}$"; // Assuming 10-digit mobile number
+        
+        return mobileNumber.matches(regex);
+    }
+
+	public static void validateHall(String hallName) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	public static void validateHallLocation(String hallLocation) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void validateMobileNumber(String mobileNumber) {
+		// TODO Auto-generated method stub
+		
 	}
 }

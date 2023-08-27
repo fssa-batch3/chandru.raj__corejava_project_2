@@ -1,6 +1,7 @@
 package com.fssa.project.model;
 
 public class Hall {
+    private int hallId;
     private String hallName;
     private String hallLocation;
     private String mobileNumber;
@@ -9,10 +10,19 @@ public class Hall {
         // Default constructor
     }
 
-    public Hall(String hallName, String hallLocation, String mobileNumber) {
+    public Hall(int hallId, String hallName, String hallLocation, String mobileNumber) {
+        this.hallId = hallId;
         this.hallName = hallName;
         this.hallLocation = hallLocation;
         this.mobileNumber = mobileNumber;
+    }
+
+    public int getHallId() {
+        return hallId;
+    }
+
+    public void setHallId(int hallId) {
+        this.hallId = hallId;
     }
 
     public String getHallName() {
@@ -39,13 +49,13 @@ public class Hall {
         this.mobileNumber = mobileNumber;
     }
 
-	public void setHallId(int int1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public int getHallId() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    @Override
+    public String toString() {
+        return "Hall{" +
+                "hallId=" + hallId +
+                ", hallName='" + hallName + '\'' +
+                ", hallLocation='" + hallLocation + '\'' +
+                ", mobileNumber='" + mobileNumber + '\'' +
+                '}';
+    }
 }
