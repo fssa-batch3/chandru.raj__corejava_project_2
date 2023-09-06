@@ -5,18 +5,21 @@ public class Hall {
     private String hallName;
     private String hallLocation;
     private String mobileNumber;
-
-    public Hall() {
+  
+    public Hall(String hallName2, String hallLocation2, String mobileNumber2) {
         // Default constructor
+         this.hallName = hallName2;
+         this.hallLocation = hallLocation2;
+         this.mobileNumber = mobileNumber2;
     }
-
-    public Hall(int hallId, String hallName, String hallLocation, String mobileNumber) {
-        this.hallId = hallId;
-        this.hallName = hallName;
-        this.hallLocation = hallLocation;
-        this.mobileNumber = mobileNumber;
+               
+    public Hall(int hallid, String hallName2, String hallLocation2, String mobileNumber2) {
+        this.hallId = hallid;
+        this.hallName = hallName2;
+        this.hallLocation = hallLocation2;
+        this.mobileNumber = mobileNumber2;
     }
-
+        
     public int getHallId() {
         return hallId;
     }
@@ -45,6 +48,7 @@ public class Hall {
         return mobileNumber;
     }
 
+    
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }

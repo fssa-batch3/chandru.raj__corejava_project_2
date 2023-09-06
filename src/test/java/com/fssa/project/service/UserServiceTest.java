@@ -15,7 +15,7 @@ public class UserServiceTest {
 	  @Test
 	    public void testCreateUser_Success() {
 	        User user = new User("JohDoe", "Male", "1234567890", LocalDate.of(1990, 1, 1),
-	                             "johjnlk88@example.com", "password");
+	                             "chandru@gmail.com", "password");
 	        UserService userService = new UserService();
 	        String result;
 			try {
@@ -23,7 +23,7 @@ public class UserServiceTest {
 				assertEquals("User Created Successfully", result);
 			} catch (ServiceException e) {
 				fail("Unexpected exception: " + e.getMessage());
-			}
+			}	
 	    }
 
 	    @Test

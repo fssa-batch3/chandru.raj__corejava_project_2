@@ -22,9 +22,14 @@ public class ConnectionUtil {
         final String dbUser;
         final String dbPassword;
         
-      dbUrl = System.getenv("DB_URL");
-      dbUser = System.getenv("DB_USER");
-      dbPassword = System.getenv("DB_PASSWORD");
+//      dbUrl = System.getenv("DB_URL");
+//      dbUser = System.getenv("DB_USER");
+//      dbPassword = System.getenv("DB_PASSWORD");
+        
+      dbUrl = "jdbc:mysql://localhost:3306/project";
+      dbUser = "root";
+      dbPassword = "root";
+        
 
         try {
         	Class.forName("com.mysql.cj.jdbc.Driver");

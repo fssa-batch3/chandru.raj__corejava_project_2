@@ -1,0 +1,14 @@
+com\fssa\project\dao\HallDAO.class
+com\fssa\project\model\Movie.class
+com\fssa\project\service\HallService.class
+com\fssa\project\exception\ValidationException.class
+com\fssa\project\utils\ConnectionUtil.class
+com\fssa\project\dao\UserDAO.class
+com\fssa\project\validation\UserValidator.class
+com\fssa\project\To.class
+com\fssa\project\exception\ServiceException.class
+com\fssa\project\exception\DAOException.class
+com\fssa\project\service\UserService.class
+com\fssa\project\model\Hall.class
+com\fssa\project\model\User.class
+com\fssa\project\validation\HallValidator.class

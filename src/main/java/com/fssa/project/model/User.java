@@ -23,7 +23,14 @@ public class User {
 
     // Constructors, getters, setters, and other methods...
 
-    public String getName() {
+    public User(String name2, String gender2, String mobileNumber2, int i, String email2, String password2) {
+	}
+    
+    public User() {
+    	
+    }
+
+	public String getName() {
         return name;
     }
 

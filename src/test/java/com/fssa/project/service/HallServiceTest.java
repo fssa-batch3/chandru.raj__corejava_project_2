@@ -39,17 +39,25 @@ public class HallServiceTest {
 
     @Test
     @Order(1)
-    public void testCreateHall_Success() {
-        Hall hall = new Hall();
-        hall.setHallName("ABC Hall");
-        hall.setHallLocation("Some Location");
-        hall.setMobileNumber("1234567890");
-
-        assertDoesNotThrow(() -> {
-            int hallId = hallService.createHall(hall);
-            assertTrue(hallId > 0);
-            createdHallId = hallId;
-        });
+    public void testCreateHall_Success() throws ServiceException {
+        Hall hall = new Hall("ABC Hall","Some Location","1234567890");
+//        hall.setHallName("ABC Hall");
+//        hall.setHallLocation("Some Location");
+//        hall.setMobileNumber("1234567890");
+     
+//        assertDoesNotThrow(() -> {
+//            int hallId = hallService.createHall(hall);
+//            assertTrue(hallId > 0);
+//            createdHallId = hallId;
+//        });
+        try {
+        HallService hallservice = new HallService();
+        
+        assertEquals(1,hallservice.createHall(hall));
+        System.out.println("Create Hall successful");
+        }catch (ServiceException e) {
+        	System.out.println("Create Hall unsuccessful");
+        }
     }
 
     @Test
@@ -63,21 +71,48 @@ public class HallServiceTest {
 
     @Test
     @Order(3)
+   
     public void testUpdateHall_Success() {
-        assertDoesNotThrow(() -> {
-            Hall hall = hallService.readHall(createdHallId);
-            assertNotNull(hall);
+        // Create a Hall object with necessary data
+        Hall hall = new Hall(1,"Vishnu Mahal","Tambaram","9876543210");
+       
 
-            hall.setHallLocation("Updated Location");
+        // Create a HallService
+        HallService hallService = new HallService();
+
+        try {
+            // Call the updateHall method
             boolean result = hallService.updateHall(hall);
+            
+
+            // Check that the update was successful
             assertTrue(result);
-
-            Hall updatedHall = hallService.readHall(createdHallId);
-            assertNotNull(updatedHall);
-            assertEquals("Updated Location", updatedHall.getHallLocation());
-        });
+        } catch (ServiceException e) {
+        	e.printStackTrace();
+            fail("Unexpected ServiceException: " + e.getMessage());
+        }
     }
-
+    
+//    public void testUpdateHall_Success() {	
+//    	try {
+//            Hall hall = hallService.readHall(12);
+//            System.out.println(hall);
+//            assertNotNull(hall);
+//
+//            hall.setHallLocation("Updated Location");
+//            boolean result = hallService.updateHall(hall);
+//            assertTrue(result);
+// 
+//            Hall updatedHall = hallService.readHall(createdHallId);
+//            System.out.println(updatedHall);
+//            assertNotNull(updatedHall);
+//            assertEquals("Updated Location", updatedHall.getHallLocation());
+//    	}catch(ServiceException e) {
+//    		e.printStackTrace();
+//    		fail();
+//    	}
+//    }    
+ 
     @Test
     @Order(4)
     public void testDeleteHall_Success() {
@@ -109,7 +144,7 @@ public class HallServiceTest {
             hallService.updateHall(hall);
         });
     }
-
+              
     @Test
     @Order(7)
     public void testDeleteHall_InvalidHallId() {

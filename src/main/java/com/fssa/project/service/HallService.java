@@ -11,12 +11,13 @@ public class HallService {
 
     public int createHall(Hall hall) throws ServiceException {
         try {
+        	//ToDo need check  whether the data already exists
             return HallDAO.createHall(hall);
         } catch (DAOException e) {
             throw new ServiceException("Failed to create hall", e);
         }
     }
-
+                        
     public Hall readHall(int hallId) throws ServiceException {
         try {
             return HallDAO.getHallById(hallId);
@@ -25,14 +26,14 @@ public class HallService {
         }
     }
 
-    public List<Hall> getAllHalls() throws ServiceException {
+    public static List<Hall> getAllHalls() throws ServiceException {
         try {
             return HallDAO.getAllHalls();
         } catch (DAOException e) {
             throw new ServiceException("Failed to get halls", e);
         }
     }
-
+      
     public boolean updateHall(Hall hall) throws ServiceException {
         try {
             return HallDAO.updateHall(hall);

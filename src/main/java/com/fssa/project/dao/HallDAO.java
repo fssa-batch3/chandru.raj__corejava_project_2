@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HallDAO {
 
-    private HallDAO() {
+    public HallDAO() {
     }
 
     public static int createHall(Hall hall) throws DAOException {
@@ -32,7 +32,7 @@ public class HallDAO {
             throw new DAOException(e);
         }
     }
-
+        
     public static Hall getHallById(int hallId) throws DAOException {
         String query = "SELECT * FROM halls WHERE hall_id = ?";
         try (Connection connection = ConnectionUtil.getConnection();
@@ -49,7 +49,7 @@ public class HallDAO {
         } catch (SQLException e) {
             throw new DAOException(e);
         }
-    }
+    } 
 
     public static List<Hall> getAllHalls() throws DAOException {
         List<Hall> halls = new ArrayList<>();
@@ -59,6 +59,7 @@ public class HallDAO {
              ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
+            	System.out.println("yes");
                 halls.add(extractHallFromResultSet(rs));
             }
             return halls;
@@ -67,7 +68,7 @@ public class HallDAO {
             throw new DAOException(e);
         }
     }
-
+ 
     public static boolean updateHall(Hall hall) throws DAOException {
         String query = "UPDATE halls SET hall_name=?, hall_location=?, mobile_no=? WHERE hall_id=?";
         try (Connection connection = ConnectionUtil.getConnection();
@@ -79,7 +80,7 @@ public class HallDAO {
             pst.setInt(4, hall.getHallId());
 
             int rowsAffected = pst.executeUpdate();
-            return rowsAffected > 0;
+            return rowsAffected == 1;
 
         } catch (SQLException e) {
             throw new DAOException(e);
@@ -100,18 +101,19 @@ public class HallDAO {
             throw new DAOException(e);
         }
     }
-
+         
     private static Hall extractHallFromResultSet(ResultSet rs) throws SQLException {
         int hallId = rs.getInt("hall_id");
         String hallName = rs.getString("hall_name");
         String hallLocation = rs.getString("hall_location");
-        String mobileNumber = rs.getString("mobile_no");
-
-        Hall hall = new Hall();
+        String mobileNumber = rs.getString("mobile_number"); 
+        
+        Hall hall = new Hall(hallId, hallName, hallLocation, mobileNumber);
         hall.setHallId(hallId);
         hall.setHallName(hallName);
         hall.setHallLocation(hallLocation);
         hall.setMobileNumber(mobileNumber);
         return hall;
     }
+
 }

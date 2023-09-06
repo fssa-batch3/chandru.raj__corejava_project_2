@@ -100,6 +100,24 @@ public class UserDAO {
         }
     }
 
+    public static boolean loginUser(String email, String password) throws DAOException {
+        String query = "SELECT * FROM user WHERE email = ? AND password = ?";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement pst = connection.prepareStatement(query)) {
+
+            pst.setString(1, email);
+            pst.setString(2, password);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next(); // Return true if a user was found, false otherwise
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+    
+ 
     public static boolean deleteUser(int userId) throws DAOException {
         String query = "DELETE FROM user WHERE user_id=?";
         try (Connection connection = ConnectionUtil.getConnection();
@@ -132,6 +150,11 @@ public class UserDAO {
         user.setDeleted(isDeleted);
         return user;
     }
+
+	public static User getUserByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
    
 }

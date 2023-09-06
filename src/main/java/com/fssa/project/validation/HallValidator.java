@@ -29,18 +29,18 @@ public class HallValidator {
             throw new ValidationException("Invalid mobile number");
         }
 
-        // You can add more validation rules as needed
+       
     }
 
     private static boolean isValidHallName(String hallName) {
-        // Define your regex pattern for a valid hall name
+        
         String regex = "^[a-zA-Z0-9\\s]+$"; // Alphanumeric with spaces
         
         return hallName.matches(regex);
     }
 
     private static boolean isValidMobileNumber(String mobileNumber) {
-        // Define your regex pattern for a valid mobile number
+        
         String regex = "^[0-9]{10}$"; // Assuming 10-digit mobile number
         
         return mobileNumber.matches(regex);
