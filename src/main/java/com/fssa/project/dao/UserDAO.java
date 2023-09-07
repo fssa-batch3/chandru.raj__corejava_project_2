@@ -117,6 +117,8 @@ public class UserDAO {
         }
     }
     
+
+    
  
     public static boolean deleteUser(int userId) throws DAOException {
         String query = "DELETE FROM user WHERE user_id=?";

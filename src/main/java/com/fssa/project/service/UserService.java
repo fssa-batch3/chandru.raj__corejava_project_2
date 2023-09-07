@@ -14,7 +14,7 @@ public class UserService {
 		try {
 			UserValidator userValidator = new UserValidator(user);
 			userValidator.validateAll();
-
+ 
 			if (UserDAO.createUser(user)) {
 				return "User Created Successfully";
 			} else {
@@ -65,7 +65,9 @@ public class UserService {
 			throw new ServiceException("Database Error", e);
 		}
 	}
-
+  
+	
+	
 	public User readUser(int userId) {
 		// TODO Auto-generated method stub
 		return null;

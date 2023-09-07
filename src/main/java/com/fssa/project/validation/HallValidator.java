@@ -11,7 +11,7 @@ public class HallValidator {
     public static void validateHall(Hall hall) throws ValidationException {
         if (hall == null) {
             throw new ValidationException("Hall object is null");
-        }
+        } 
 
         if (hall.getHallName() == null || hall.getHallName().isEmpty()) {
             throw new ValidationException("Hall name is required");
