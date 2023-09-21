@@ -2,7 +2,7 @@ package com.fssa.project.model;
 
 public class Hall {
 	private int hallId;
-	
+
 	private String hallName;
 	private String hallLocation;
 	private String mobileNumber;
@@ -19,7 +19,7 @@ public class Hall {
 	public Hall(String hallName2, String hallLocation2, String mobileNumber2, String capacity2, String pricing2,
 			String url, String url1, String url2, String url3, String url4, String url5, String url6) {
 		// Default constructor
-		
+
 		this.hallName = hallName2;
 		this.hallLocation = hallLocation2;
 		this.mobileNumber = mobileNumber2;
@@ -54,7 +54,7 @@ public class Hall {
 	public Hall(int hallid, String url, String hallName2, String hallLocation2, String mobileNumber2, String capacity2,
 			String pricing2, String url1, String url2, String url3, String url4, String url5, String url6) {
 		this.hallId = hallid;
-				this.hallName = hallName2;
+		this.hallName = hallName2;
 		this.hallLocation = hallLocation2;
 		this.mobileNumber = mobileNumber2;
 		this.capacity = capacity2;
@@ -163,6 +163,7 @@ public class Hall {
 	@Override
 	public String toString() {
 		return "Hall{" + "hallId=" + hallId + ", hallName='" + hallName + '\'' + ", hallLocation='" + hallLocation
-				+ '\'' + ", mobileNumber='" + mobileNumber + '\'' + pricing + capacity + url + url1 + url2 + url3 + url4 + url5 + url6 +  '}';
+				+ '\'' + ", mobileNumber='" + mobileNumber + '\'' + pricing + capacity + url + url1 + url2 + url3 + url4
+				+ url5 + url6 + '}';
 	}
 }
