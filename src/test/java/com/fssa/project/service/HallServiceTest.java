@@ -19,7 +19,7 @@ public class HallServiceTest {
     void setUp() {
         hallService = new HallService();
 
-        hall = new Hall("Grand Palace","Saidapet","9876543777");
+        hall = new Hall("Grand Palace","Velachery","7397388860","850", "16000", "https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg","https://content.jdmagicbox.com/comp/chennai/w1/044pxx44.xx44.221002165006.q7w1/catalogue/ppresidency-padur-chennai-banquet-halls-o6567wpfto.jpg");
 //        hall.setHallName("Sample Hall");
 //        hall.setHallLocation("Sample Location");
 //        hall.setMobileNumber("1234567890");
@@ -50,8 +50,8 @@ public class HallServiceTest {
     @Test
     @Order(3)
     void testUpdateHall_Success() {
-        hall.setHallId(10); // Assuming hallId 1 exists
-        hall.setHallName("Grand Hall");
+        hall.setHallId(23); // Assuming hallId 1 exists
+        hall.setHallName("Loki Palace");
         try {
             boolean result = hallService.updateHall(hall);
             assertTrue(result);
@@ -59,12 +59,12 @@ public class HallServiceTest {
            // fail("Should not throw ServiceException");
         }
     }
-
+   
     @Test
     @Order(4)
     void testDeleteHall_Success() {
         try {
-            boolean result = hallService.deleteHall(9); // Assuming hallId 1 exists
+            boolean result = hallService.deleteHall(19); // Assuming hallId 1 exists
             assertTrue(result, "Hall deletion should succeed");
         } catch (ServiceException e) {
             fail("Should not throw ServiceException");

@@ -14,7 +14,7 @@ public class UserServiceTest {
 
 	  @Test
 	    public void testCreateUser_Success() {
-	        User user = new User("JohDoe", "Male", "1234567890", LocalDate.of(1990, 1, 1),
+	        User user = new User("JohDoe", "1234567890", 
 	                             "chandru@gmail.com", "password");
 	        UserService userService = new UserService();
 	        String result;
@@ -28,7 +28,7 @@ public class UserServiceTest {
 
 	    @Test
 	    public void testCreateUser_InvalidData() {
-	        User user = new User("", "Male", "1234567890", LocalDate.of(1990, 1, 1),
+	        User user = new User("", "1234567890", 
 	                             "john@example.com", "password");
 	        UserService userService = new UserService();
 

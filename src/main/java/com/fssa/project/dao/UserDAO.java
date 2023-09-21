@@ -19,19 +19,18 @@ public class UserDAO {
     }
 
     public static boolean createUser(User user) throws DAOException {
-        String query = "INSERT INTO user (name, gender, mobile_number, date_of_birth, email, password, is_active, is_deleted) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO user (name, mobile_number, email, password, isseller, is_active, is_deleted) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
             pst.setString(1, user.getName());
-            pst.setString(2, user.getGender());
-            pst.setString(3, user.getMobileNumber());
-            pst.setDate(4, Date.valueOf(user.getDateOfBirth()));
-            pst.setString(5, user.getEmail());
-            pst.setString(6, user.getPassword());
-            pst.setBoolean(7, user.isActive());
-            pst.setBoolean(8, user.isDeleted());
+            pst.setString(2, user.getMobileNumber());
+            pst.setString(3, user.getEmail());
+            pst.setString(4, user.getPassword());
+            pst.setInt(5, user.isseller);
+            pst.setBoolean(6, user.isActive());
+            pst.setBoolean(7, user.isDeleted());
 
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
@@ -77,20 +76,20 @@ public class UserDAO {
     }
 
     public static boolean updateUser(User user) throws DAOException {
-        String query = "UPDATE user SET name=?, gender=?, mobile_number=?, date_of_birth=?, email=?, password=?, " +
-                "is_active=?, is_deleted=? WHERE user_id=?";
+        String query = "UPDATE user SET name=?, mobile_number=?, email=?, password=?, is_active=?, is_deleted=? WHERE user_id=?";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
 
             pst.setString(1, user.getName());
-            pst.setString(2, user.getGender());
-            pst.setString(3, user.getMobileNumber());
-            pst.setDate(4, Date.valueOf(user.getDateOfBirth()));
-            pst.setString(5, user.getEmail());
-            pst.setString(6, user.getPassword());
-            pst.setBoolean(7, user.isActive());
-            pst.setBoolean(8, user.isDeleted());
-            pst.setInt(9, user.getUserId());
+            
+            pst.setString(2, user.getMobileNumber());
+            
+            pst.setString(3, user.getEmail());
+            pst.setString(4, user.getPassword());
+            
+            pst.setBoolean(5, user.isActive());
+            pst.setBoolean(6, user.isDeleted());
+            pst.setInt(7, user.getUserId());
 
             int rowsAffected = pst.executeUpdate();
             return rowsAffected > 0;
@@ -134,19 +133,44 @@ public class UserDAO {
             throw new DAOException(e);
         }
     }
+    
+    public static int findTypeByEmail(String email) throws DAOException {
+		String sql = "SELECT isseller FROM user WHERE email = ?";
+		int type = 0; // Initialize to a default value
+		try (Connection connection = ConnectionUtil.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+			preparedStatement.setString(1, email);
+
+			// Execute the SQL query
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			if (resultSet.next()) {
+				type = resultSet.getInt("isseller");
+			} else {
+				throw new DAOException("User not found.");
+			}
+
+			// Close the database resources
+			resultSet.close();
+		} catch (SQLException e) {
+			throw new DAOException("Database error: " + e.getMessage());
+		}
+		return type;
+	}
 
     private static User extractUserFromResultSet(ResultSet rs) throws SQLException {
         int userId = rs.getInt("user_id");
         String name = rs.getString("name");
-        String gender = rs.getString("gender");
+        
         String mobileNumber = rs.getString("mobile_number");
-        LocalDate dateOfBirth = rs.getDate("date_of_birth").toLocalDate();
+        
         String email = rs.getString("email");
         String password = rs.getString("password");
         boolean isActive = rs.getBoolean("is_active");
         boolean isDeleted = rs.getBoolean("is_deleted");
 
-        User user = new User(name, gender, mobileNumber, dateOfBirth, email, password);
+        User user = new User(name, mobileNumber,email, password);
         user.setUserId(userId);
         user.setActive(isActive);
         user.setDeleted(isDeleted);
@@ -157,6 +181,9 @@ public class UserDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
 
    
 }

@@ -31,13 +31,23 @@ public class HallDAO {
      * @throws DAOException If a database error occurs.
      */
     public static int createHall(Hall hall) throws DAOException {
-        String query = "INSERT INTO halls (hall_name, hall_location, mobile_no) VALUES (?, ?, ?)";
+        String query = "INSERT INTO halls ( hall_name, hall_location, mobile_no, capacity, price,url, url1, url2, url3, url4, url5, url6) VALUES (?, ?, ?,?,?, ?, ?, ?, ?, ?, ?,?)";
         try (Connection connection = ConnectionUtil.getConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
-
+                                 
             pst.setString(1, hall.getHallName());
             pst.setString(2, hall.getHallLocation());
             pst.setString(3, hall.getMobileNumber());
+            pst.setString(4, hall.getCapacity());
+            pst.setString(5, hall.getPricing());
+            pst.setString(6, hall.getUrl());
+            pst.setString(7, hall.getUrl1());
+            pst.setString(8, hall.getUrl2());
+            pst.setString(9, hall.getUrl3());
+            pst.setString(10, hall.getUrl4());
+            pst.setString(11, hall.getUrl5());
+            pst.setString(12, hall.getUrl6());
+            
 
             int rowsAffected = pst.executeUpdate();
             return rowsAffected;
@@ -70,6 +80,57 @@ public class HallDAO {
             throw new DAOException(e);
         }
     } 
+    
+    
+    public static Hall getHallByIdLong(long hallId) throws DAOException {
+        String query = "SELECT * FROM halls WHERE hall_id = ?";
+        
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.setLong(1, hallId);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    // Create a Hall object from the retrieved data
+                    Hall hall = new Hall();
+                    hall.setHallId(rs.getInt("hall_id"));
+                    hall.setHallName(rs.getString("hall_name"));
+                    hall.setHallLocation(rs.getString("hall_location"));
+                    hall.setMobileNumber(rs.getString("mobile_no"));
+                    hall.setCapacity(rs.getString("capacity"));
+                    hall.setPricing(rs.getString("price"));
+                    hall.setUrl(rs.getString("url"));
+                    hall.setUrl1(rs.getString("url1"));
+                    hall.setUrl2(rs.getString("url2"));
+                    hall.setUrl3(rs.getString("url3"));
+                    hall.setUrl4(rs.getString("url4"));
+                    hall.setUrl5(rs.getString("url5"));
+                    hall.setUrl6(rs.getString("url6"));
+
+                    return hall;
+                } else {
+                    // Hall not found, return null
+                    return null;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
+    public static void main(String[] args) {
+		try {
+			Hall hall = HallDAO.getHallById(34);
+			
+			System.out.println(hall);
+			System.out.println(hall.getCapacity());
+		} catch (DAOException e) {
+			e.printStackTrace();
+		}
+	}
+    
+    
+    
     /**
      * Retrieves a list of all Hall objects from the database.
      *
@@ -84,7 +145,7 @@ public class HallDAO {
              ResultSet rs = pst.executeQuery()) {
 
             while (rs.next()) {
-            	System.out.println("yes");
+            	System.out.println("");
                 halls.add(extractHallFromResultSet(rs));
             }
             return halls;
@@ -93,6 +154,11 @@ public class HallDAO {
             throw new DAOException(e);
         }
     }
+    
+    
+    
+    
+    
     /**
      * Updates an existing hall record in the database.
      *
@@ -109,7 +175,15 @@ public class HallDAO {
             pst.setString(2, hall.getHallLocation());
             pst.setString(3, hall.getMobileNumber());
             pst.setInt(4, hall.getHallId());
-
+            pst.setString(5, hall.getCapacity());
+            pst.setString(6, hall.getPricing());
+            pst.setString(7, hall.getUrl());
+            pst.setString(8, hall.getUrl1());
+            pst.setString(9, hall.getUrl2());
+            pst.setString(10, hall.getUrl3());
+            pst.setString(11, hall.getUrl4());
+            pst.setString(12, hall.getUrl5());
+            pst.setString(13, hall.getUrl6());
             int rowsAffected = pst.executeUpdate();
             return rowsAffected == 1;
 
@@ -150,12 +224,31 @@ public class HallDAO {
         String hallName = rs.getString("hall_name");
         String hallLocation = rs.getString("hall_location");
         String mobileNumber = rs.getString("mobile_no"); 
+        String capacity = rs.getString("capacity");
+        String pricing = rs.getString("price");
+        String url = rs.getString("url");
+        String url1 = rs.getString("url1");
+        String url2 = rs.getString("url2");
+        String url3 = rs.getString("url3");
+        String url4 = rs.getString("url4");
+        String url5 = rs.getString("url5");
+        String url6 = rs.getString("url6");
         
-        Hall hall = new Hall(hallId, hallName, hallLocation, mobileNumber);
+        
+        Hall hall = new Hall(hallId, hallName, hallLocation, mobileNumber,capacity, pricing, url, url1, url2, url3, url4, url5, url6);
         hall.setHallId(hallId);
         hall.setHallName(hallName);
         hall.setHallLocation(hallLocation);
         hall.setMobileNumber(mobileNumber);
+        hall.setCapacity(capacity);
+        hall.setPricing(pricing);
+        hall.setUrl(url);
+        hall.setUrl1(url1);
+        hall.setUrl2(url2);
+        hall.setUrl3(url3);
+        hall.setUrl4(url4);
+        hall.setUrl5(url5);
+        hall.setUrl6(url6);	
         return hall;
     }
 

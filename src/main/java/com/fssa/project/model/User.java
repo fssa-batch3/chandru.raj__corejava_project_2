@@ -3,96 +3,90 @@ package com.fssa.project.model;
 import java.time.LocalDate;
 
 public class User {
-    private String name;
-    private String gender;
-    private String mobileNumber;
-    private LocalDate dateOfBirth;
-    private String email;
-    private String password;
-    private boolean isActive = true;
-    private boolean isDeleted = false;
+	private String name;
 
-    public User(String name, String gender, String mobileNumber, LocalDate dateOfBirth, String email, String password) {
-        this.name = name;
-        this.gender = gender;
-        this.mobileNumber = mobileNumber;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.password = password;
-    }
+	private String mobileNumber;
 
-    // Constructors, getters, setters, and other methods...
+	private String email;
+	private String password;
+	public int isseller;
+	private boolean isActive = true;
+	private boolean isDeleted = false;
 
-    public User(String name2, String gender2, String mobileNumber2, int i, String email2, String password2) {
+	public User(String name, String mobileNumber, String email, String password) {
+		this.name = name;
+
+		this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.password = password;
+
 	}
-    
-    public User() {
-    	
-    }
+
+	// Constructors, getters, setters, and other methods...
+
+//    public User(String name2, String mobileNumber2, int i, String email2, String password2) {
+//	}
+//    
+	public User() {
+
+	}
+
+	public User(String name, String mobileNumber, String email, String password, int setType) {
+		this.name = name;
+		this.isseller = setType;
+		this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.password = password;
+
+	}
 
 	public String getName() {
-        return name;
-    }
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public boolean isActive() {
+		return isActive;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public boolean isDeleted() {
+		return isDeleted;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
-    }
+	public void setDeleted(boolean deleted) {
+		isDeleted = deleted;
+	}
 
 	public int getUserId() {
 		// TODO Auto-generated method stub
@@ -101,6 +95,14 @@ public class User {
 
 	public void setUserId(int userId) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public int isIsseller() {
+		return isseller;
+	}
+
+	public void setIsseller(int isseller) {
+		this.isseller = isseller;
 	}
 }

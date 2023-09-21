@@ -1,6 +1,7 @@
 package com.fssa.project.service;
 
 import com.fssa.project.dao.HallDAO;
+import com.fssa.project.exception.DAOException;
 import com.fssa.project.exception.ServiceException;
 import com.fssa.project.model.Hall;
 import com.fssa.project.validation.HallValidator;
@@ -55,6 +56,15 @@ public class HallService {
             return HallDAO.getAllHalls();
         } catch (Exception e) {
             throw new ServiceException("Error retrieving all halls", e);
+        }
+    }
+
+    public Hall getHallByIdLong(long hallId) throws ServiceException {
+        try {
+            // Call the DAO to retrieve a hall by its ID
+            return HallDAO.getHallByIdLong(hallId);
+        } catch (DAOException e) {
+            throw new ServiceException("Error retrieving hall by ID", e);
         }
     }
 }
