@@ -108,7 +108,7 @@ public class UserDAO {
             pst.setString(2, password);
 
             try (ResultSet rs = pst.executeQuery()) {
-                return rs.next(); // Return true if a user was found, false otherwise
+                return rs.next();
             }
 
         } catch (SQLException e) {
@@ -136,13 +136,10 @@ public class UserDAO {
     
     public static int findTypeByEmail(String email) throws DAOException {
 		String sql = "SELECT isseller FROM user WHERE email = ?";
-		int type = 0; // Initialize to a default value
+		int type = 0; 
 		try (Connection connection = ConnectionUtil.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
 			preparedStatement.setString(1, email);
-
-			// Execute the SQL query
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			if (resultSet.next()) {
@@ -150,40 +147,27 @@ public class UserDAO {
 			} else {
 				throw new DAOException("User not found.");
 			}
-
-			// Close the database resources
 			resultSet.close();
 		} catch (SQLException e) {
 			throw new DAOException("Database error: " + e.getMessage());
 		}
 		return type;
 	}
-
     private static User extractUserFromResultSet(ResultSet rs) throws SQLException {
         int userId = rs.getInt("user_id");
-        String name = rs.getString("name");
-        
-        String mobileNumber = rs.getString("mobile_number");
-        
+        String name = rs.getString("name");        
+        String mobileNumber = rs.getString("mobile_number");        
         String email = rs.getString("email");
         String password = rs.getString("password");
         boolean isActive = rs.getBoolean("is_active");
         boolean isDeleted = rs.getBoolean("is_deleted");
-
         User user = new User(name, mobileNumber,email, password);
         user.setUserId(userId);
         user.setActive(isActive);
         user.setDeleted(isDeleted);
         return user;
     }
-
 	public static User getUserByEmail(String email) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
-	
-
-   
 }
