@@ -2,8 +2,6 @@ package com.fssa.project.validation;
 
 import com.fssa.project.exception.ValidationException;
 import com.fssa.project.model.User;
-import java.time.LocalDate;
-import java.util.regex.Pattern;
 
 public class UserValidator {
     private User user;
@@ -25,8 +23,17 @@ public class UserValidator {
         if (user.getName() == null || user.getName().isEmpty()) {
             throw new ValidationException("Name is required.");
         }
+        
+        // Define a regex pattern for a valid name (adjust as needed)
+        String namePattern = "^[A-Za-z\\s'-]{3,}$"; // This pattern allows letters, spaces, hyphens, and apostrophes and requires at least 6 characters
+        
+        if (!user.getName().matches(namePattern)) {
+            throw new ValidationException("Invalid name(eg:Ajay Natraj) format or too short (minimum 3 characters).");
+        }
+        
         // Additional validation rules for name if needed
     }
+
 
     
 
@@ -34,8 +41,17 @@ public class UserValidator {
         if (user.getMobileNumber() == null || user.getMobileNumber().isEmpty()) {
             throw new ValidationException("Mobile number is required.");
         }
+        
+        // Define a regex pattern for a 10-digit mobile number starting with 9, 8, or 6
+        String mobilePattern = "^[9876][0-9]{9}$"; // This pattern allows exactly 10 digits and starts with 9, 8, or 6
+        
+        if (!user.getMobileNumber().matches(mobilePattern)) {
+            throw new ValidationException("Invalid mobile number format.");
+        }
+        
         // Additional validation rules for mobile number if needed
     }
+
 
     
 
@@ -56,6 +72,15 @@ public class UserValidator {
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
             throw new ValidationException("Password is required.");
         }
-        // Additional validation rules for password if needed
+        
+        // regex pattern for password
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+        
+        if (!user.getPassword().matches(passwordPattern)) {
+            throw new ValidationException("Invalid password format.");
+        }
+        
+     
     }
+
 }

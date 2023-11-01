@@ -15,7 +15,7 @@ import java.util.List;
 
 public class UserDAO {
 
-    private UserDAO() {
+    public UserDAO() {
     }
 
     public static boolean createUser(User user) throws DAOException {
@@ -39,6 +39,30 @@ public class UserDAO {
             throw new DAOException(e);
         }
     }
+    
+    
+ // Check the user is already exists or not
+ 	public boolean checkUserDataExistOrNot(String email) throws DAOException {
+ 		String selectQuery = "SELECT email FROM user WHERE email = ?";
+ 		try (Connection connection = ConnectionUtil.getConnection();
+
+ 				PreparedStatement statement = connection.prepareStatement(selectQuery)) {
+ 			statement.setString(1, email);
+
+ 			try (ResultSet resultSet = statement.executeQuery()) {
+ 				if (resultSet.next()) {
+ 					throw new DAOException("User email already exist, try another email");
+ 				} else {
+ 					return true;
+ 				}
+ 			}
+
+ 		} catch (SQLException e) {
+ 			throw new DAOException(e);
+ 		}
+ 	}
+    
+    
 
     public static User getUserById(int userId) throws DAOException {
         String query = "SELECT * FROM user WHERE user_id = ?";

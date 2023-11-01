@@ -24,11 +24,11 @@ public class Booking {
         this.id = id;
     }
 
-    public String getUserEmail() { // Change getter and setter method names
+    public String getUserEmail() { 
         return userEmail;
     }
 
-    public void setUserEmail(String userEmail) { // Change parameter type
+    public void setUserEmail(String userEmail) { 
         this.userEmail = userEmail;
     }
 

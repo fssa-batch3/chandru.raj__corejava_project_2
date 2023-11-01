@@ -1,7 +1,7 @@
 package com.fssa.project.validation;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.fssa.project.exception.ValidationException;
 import com.fssa.project.model.Hall;
 
@@ -13,111 +13,103 @@ public class HallValidator {
     public static void validateHall(Hall hall) throws ValidationException {
         if (hall == null) {
             throw new ValidationException("Hall object is null");
-        } 
-
-        if (hall.getHallName() == null || hall.getHallName().isEmpty()) {
-            throw new ValidationException("Hall name is required");
-        } else if (!isValidHallName(hall.getHallName())) {
-            throw new ValidationException("Invalid hall name");
         }
 
-        if (hall.getHallLocation() == null || hall.getHallLocation().isEmpty()) {
+        validateHallName(hall.getHallName());
+        validateHallLocation(hall.getHallLocation());
+        validateMobileNumber(hall.getMobileNumber());
+        validateCapacity(hall.getCapacity());
+        validatePricing(hall.getPricing());
+        validateImageUrl(hall.getUrl());
+        validateImageUrl(hall.getUrl1());
+        validateImageUrl(hall.getUrl2());
+        validateImageUrl(hall.getUrl3());
+        validateImageUrl(hall.getUrl4());
+        validateImageUrl(hall.getUrl5());
+        validateImageUrl(hall.getUrl6());
+    }
+
+    private static void validateHallName(String hallName) throws ValidationException {
+        if (hallName == null || hallName.isEmpty()) {
+            throw new ValidationException("Hall name is required");
+        }
+
+        String hallNamePattern = "^[A-Za-z0-9\\s]+$"; // Example pattern allowing letters, numbers, and spaces
+
+        if (!Pattern.matches(hallNamePattern, hallName)) {
+            throw new ValidationException("Invalid hall name");
+        }
+    }
+
+    private static void validateHallLocation(String hallLocation) throws ValidationException {
+        if (hallLocation == null || hallLocation.isEmpty()) {
             throw new ValidationException("Hall location is required");
         }
 
-        if (hall.getMobileNumber() == null || hall.getMobileNumber().isEmpty()) {
+        String hallLocationRegex = "^[A-Za-z0-9\\s]+$"; // Modify the pattern as needed
+
+        Pattern pattern = Pattern.compile(hallLocationRegex);
+
+        Matcher matcher = pattern.matcher(hallLocation);
+        if (!matcher.matches()) {
+            throw new ValidationException("Invalid hall location format");
+        }
+    }
+
+    private static void validateMobileNumber(String mobileNumber) throws ValidationException {
+        if (mobileNumber == null || mobileNumber.isEmpty()) {
             throw new ValidationException("Mobile number is required");
-        } 
-//        else if (!isValidMobileNumber(hall.getMobileNumber())) {
-//            throw new ValidationException("Invalid mobile number");
-//        }
-        
-        if (hall.getCapacity() == null || hall.getCapacity().isEmpty()) {
+        }
+
+        String mobileNumberRegex = "^[0-9]+$"; // This pattern allows only numeric characters
+
+        Pattern pattern = Pattern.compile(mobileNumberRegex);
+
+        Matcher matcher = pattern.matcher(mobileNumber);
+        if (!matcher.matches()) {
+            throw new ValidationException("Invalid mobile number format. Please enter numbers only.");
+        }
+    }
+
+    private static void validateCapacity(String capacity) throws ValidationException {
+        if (capacity == null || capacity.isEmpty()) {
             throw new ValidationException("Capacity is required");
-        } else if (isValidCapacity(hall.getCapacity())) {
-            throw new ValidationException("Invalid capacity");
         }
-        
-        if (hall.getPricing() == null || hall.getPricing().isEmpty()) {
+
+        String capacityRegex = "^[0-9]{0,4}$"; // This pattern allows exactly 4 numeric characters
+
+        Pattern pattern = Pattern.compile(capacityRegex);
+
+        Matcher matcher = pattern.matcher(capacity);
+        if (!matcher.matches()) {
+            throw new ValidationException("Invalid capacity. Capacity must consist of 4 digits.");
+        }
+    }
+
+    private static void validatePricing(String pricing) throws ValidationException {
+        if (pricing == null || pricing.isEmpty()) {
             throw new ValidationException("Pricing is required");
-        } else if (isValidPricing(hall.getPricing())) {
-            throw new ValidationException("Invalid pricing");
         }
 
-        
-//        if (hall.getUrl() != null || !hall.getUrl().isEmpty() || isValidImageURL(hall.getUrl())) {
-//            throw new ValidationException("Invalid image URL");
-//        }
-    
+        String pricingRegex = "^[0-9]+(\\.[0-9]{2})?$";
 
-       
-    }
+        Pattern pattern = Pattern.compile(pricingRegex);
 
-    public static boolean isValidHallName(String hallName) {
-        
-        String regex = "^[a-zA-Z0-9\\s]+$"; // Alphanumeric with spaces
-        
-        return hallName.matches(regex);
-    }
-    
-    
-    private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@(.+)$";
-    private static final Pattern EMAIL_REGEX = Pattern.compile(EMAIL_PATTERN);
-
-    public static boolean isValidEmail(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            return false; 
+        Matcher matcher = pattern.matcher(pricing);
+        if (!matcher.matches()) {
+            throw new ValidationException("Invalid pricing format. Please enter a valid price.");
         }
-        return EMAIL_REGEX.matcher(email).matches();
     }
 
-    public static boolean isValidMobileNumber(String mobileNumber) {
-        
-        String regex = "^[0-9]{10}$"; // Assuming 10-digit mobile number
-        
-        return mobileNumber.matches(regex);
-    }
-    
-   public static boolean isValidCapacity(String capacity) {
-        
-        String regex = "^[0-9]{10}$"; // Assuming 10-digit mobile number
-        
-        return capacity.matches(regex);
-    }
-   
-   public static boolean isValidPricing(String pricing) {
-       
-       String regex = "^[0-9]{10}$"; // Assuming 10-digit mobile number
-       
-       return pricing.matches(regex);
-   }
-    
-    public static boolean isValidLocation(String location) {
-        // Define the regex pattern for a valid location (letters, numbers, spaces, and commas)
-        String regex = "^[a-zA-Z0-9\\s,]+$";
+    private static void validateImageUrl(String imageUrl) throws ValidationException {
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+        	String regex = "\\bhttps://\\S+";
+            Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
-        // Check if the location string matches the regex pattern
-        return location.matches(regex);
+            Matcher matcher = pattern.matcher(imageUrl);
+            if (!matcher.matches()) {
+                throw new ValidationException("Invalid image URL");
+            }
+        }
     }
-    
-    public static boolean isValidImageURL(String imageUrl) {
-        // Regular expression for a valid image URL (supports common image formats)
-        String regex = "^(https?|ftp)://[A-Za-z0-9+&@#/%?=~_|!:,.;]*[A-Za-z0-9+&@#/%=~_|](.jpg|.jpeg|.png|.gif|.bmp)$";
-        return Pattern.matches(regex, imageUrl.toLowerCase());
-    }
-
-	public static void validateHall(String hallName) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void validateHallLocation(String hallLocation) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public static void validateMobileNumber(String mobileNumber) {
-		// TODO Auto-generated method stub
-		
-	}
 }

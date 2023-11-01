@@ -41,7 +41,7 @@ public class HallDAO {
             pst.setString(3, hall.getMobileNumber());
             pst.setString(4, hall.getCapacity());
             pst.setString(5, hall.getPricing());
-            pst.setString(6, hall.getEmail()); // Add this line for email
+            pst.setString(6, hall.getEmail());
             pst.setString(7, hall.getUrl());
             pst.setString(8, hall.getUrl1());
             pst.setString(9, hall.getUrl2());
@@ -156,7 +156,7 @@ public class HallDAO {
             pst.setString(3, hall.getMobileNumber());
             pst.setString(4, hall.getCapacity());
             pst.setString(5, hall.getPricing());
-            pst.setString(6, hall.getEmail()); // Add this line for email
+            pst.setString(6, hall.getEmail()); 
             pst.setString(7, hall.getUrl());
             pst.setString(8, hall.getUrl1());
             pst.setString(9, hall.getUrl2());

@@ -13,10 +13,12 @@ public class HallService {
 	public boolean createHall(Hall hall) throws ServiceException {
 		try {
 			HallValidator.validateHall(hall);
+			
 			int rowsInserted = HallDAO.createHall(hall);
 			return rowsInserted > 0;
 		} catch (Exception e) {
-			throw new ServiceException("Error creating hall", e);
+			e.printStackTrace();
+			throw new ServiceException("Error creating hall because of "+ e.getMessage());
 		}
 	}
 
@@ -28,7 +30,7 @@ public class HallService {
 			}
 			return hall;
 		} catch (Exception e) {
-			throw new ServiceException("Error reading hall", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
