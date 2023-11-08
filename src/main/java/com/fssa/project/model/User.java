@@ -18,9 +18,11 @@ public class User {
         this.password = password;
     }
 
-    public User() {
-
-    }
+    public User(int userId, String email) {
+    	        this.userId = userId;
+    	        this.email = email;
+    	    }
+    
 
     public User(String name, String mobileNumber, String email, String password, int isseller) {
         this.name = name;
@@ -30,7 +32,11 @@ public class User {
         this.isseller = isseller;
     }
 
-    public int getUserId() {
+    public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getUserId() {
         return userId;
     }
 

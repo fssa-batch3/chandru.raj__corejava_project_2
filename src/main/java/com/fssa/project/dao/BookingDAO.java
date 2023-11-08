@@ -84,6 +84,27 @@ public class BookingDAO {
             throw new DAOException(e);
         }
     }
+    
+    public static List<Booking> getBookingsByemail(String email) throws DAOException {
+        List<Booking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM bookings WHERE user_email = ?";
+        try (Connection connection = ConnectionUtil.getConnection();
+             PreparedStatement pst = connection.prepareStatement(query)) {
+
+            pst.setString(1, email);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    bookings.add(extractBookingFromResultSet(rs));
+                }
+                return bookings;
+            }
+
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+    }
+
 
     private static Booking extractBookingFromResultSet(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
@@ -121,6 +142,8 @@ public class BookingDAO {
             throw new DAOException(e);
         }
     }
+    
+    
 
     
 }

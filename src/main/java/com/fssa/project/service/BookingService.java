@@ -34,4 +34,12 @@ public class BookingService {
             throw new DAOException(e);
         }
     }
+    
+    public static List<Booking> getBookingsByEmail(String email) throws DAOException {
+        try {
+            return BookingDAO.getBookingsByemail(email);
+        } catch (DAOException e) {
+            throw new DAOException(e);
+        }
+    }
 }
